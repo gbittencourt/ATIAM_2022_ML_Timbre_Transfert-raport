@@ -1,0 +1,19 @@
+\subsection{Build a simple VAE}
+
+We implemented a simple VAE following \cite{Kingma2013autoecondingVariationalBayes} trained on the MNIST dataset.
+
+The VAE's encoder has the following structure : two 2D convolutions and one linear layer, each followed by a REctified Linear Unit (ReLU) activation function, followed by :
+\begin{itemize}
+    \item One linear layer to compute the distribution's mean
+    \item One linear layer followed by a softplus activation to compute the ditriution's variance
+\end{itemize}
+
+The decoder then has the following structure : 
+one linear layer followed by two 2D transposed convolution layers, with two ReLU activations and one Sigmoid activations functions.
+
+The loss is then the sum between the reconstruction error and the Kullback-Liebler Divergence ($D_{KL}$), with a $\beta$ factor \cite{Higgins2017betaVAELB}, the reconstruction error being the binary cross entropy between the input image and the decoded output image \ref{eq:betaVAELoss}.
+
+\begin{equation}\label{eq:betaVAELoss}
+    \mathcal{L} = \mathbb{E}_{q_\phi(z|x)}[\log [p_\theta(x|z)] - \beta D_{KL}(q_\phi(z|x)||p(z))
+\end{equation}
+
